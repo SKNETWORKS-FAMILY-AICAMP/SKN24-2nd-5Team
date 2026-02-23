@@ -42,6 +42,16 @@
 
 
 이 가설을 바탕으로 실제 패널 데이터를 정제·분석한 뒤 머신러닝 분류 모델을 구축하여 이탈에 영향을 미치는 주요 요인을 도출하고, 예측 성능을 검증하고자 한다.
+
+## 2-5. 기대 효과
+⚙️**마케팅적 측면**
+- 데이터 기반 접근을 통한 각 통신사(SKT, KT, LGU+)의 고객 이탈 예측 및 리텐션 전략 수립
+- 고객의 정보 입력 시 이탈 여부 예측 결과 시각화 제공
+
+🏭**비즈니스적 측면**
+- 이탈률 감소를 통한 수익성 유지와 마케팅비 효율 향상
+- 지속적인 데이터 분석으로 비즈니스적 경쟁력 강화 및 신규 고객 유입 전략 도출
+
 # 3. 기술 스택
 | 분류 | 기술/도구 |
 |---|---|
@@ -50,7 +60,7 @@
 | 협업 툴 | ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white) |
 # 4. WBS
 # 5. 데이터 전처리 결과서 (EDA)
-## 5-1. 데이터 개요
+## 5-1. 데이터 소개
 ### 데이터 선정
 미디어통계포털의 미디어 패널 조사 자료 중, 2017년부터 2025년까지의 원시 데이터를 사용 <br>
 
@@ -61,24 +71,176 @@
 <img width="554" height="685" alt="PJ2_EDA" src="https://github.com/user-attachments/assets/773f442b-27dc-4dab-bc52-51dddfdd5cd6" /> <br>
 - 출처: [미디어통계포털](https://stat.kisdi.re.kr/kor/contents/ContentsList.html?subject=MICRO10&sub_div=D)
 
-#### 활용 데이터 (원본 기준)
+#### 활용 데이터
 | column name          | description                                    | data type        |
 |----------------------|------------------------------------------------|------------------|
-| `pid`         | 개인 통합 ID                 | int |
+| `id`         | 개인 통합 ID                 | int |
 | `gender`        | 성별                     | int  |
-| `byear`  | 출생연도        | int  |
+| `age`  | 나이(조사한 연도 기준)        | int  |
+| `school`  | 최종학력        | int  |
 | `mar`    | 결혼 여부                   | int |
 | `income`           | 개인 월평균 소득                   | int  |
-| `job1`       | 직업 유무          | int  |
-| `area`      | 지역 구분                             | int |
-| `c01002`              |  월평균 휴대폰 이용 총 금액(만원)                           | int   |
-| `c02003`          | 휴대폰 결합상품 가입 여부           | int |
-| `a03008`         | 스마트폰 가입 이동 통신사                       | int   |
-### 데이터 확인
+| `job`       | 직업 유무          | int  |
+| `region`      | 지역 구분                             | int |
+| `year`  | 조사한 연도        | int  |
+| `phone_usage_per_m`              |  월평균 휴대폰 이용 총 금액(만원)                           | int   |
+| `mobile_bundle`          | 휴대폰 결합상품 가입 여부           | int |
+| `telecom`         | 가입 통신사                       | int   |
 
+---
+## 5-2. 데이터 전처리
+
+- 연도별로 분리된 csv 파일 결합
+```
+files = glob.glob("../../data/processed/*.csv")
+
+df_list = [pd.read_csv(f) for f in files]
+merged_df = pd.concat(df_list, ignore_index=True)
+
+merged_df.to_csv("../../data/processed/merged_telecom.csv", index=False)
+```
+- 공백으로 수집된 결측치 제거
+```
+telecom_df = telecom_df[(telecom_df != " ").all(axis=1)]
+```
+
+#### 이탈률 정의
+- 작년과 비교하여 올해 통신사가 달라진 경우, 이탈로 간주 (이탈 - 1 / 이탈하지 않음 - 0)
+```
+telecom_df['telecom_change'] = telecom_df.groupby('id')['telecom'].shift(1)
+telecom_df['telecom_change_yn'] = (telecom_df['telecom_change'] != telecom_df['telecom']).astype(int)
+
+telecom_df['telecom_change'] = telecom_df['telecom_change'].astype('Int64')
+telecom_df = telecom_df.drop('telecom_change', axis=1)
+```
+
+### 인코딩
+- 범주형 데이터 인코딩 (1, 2 > 0, 1)
+```
+telecom_df['gender'] = telecom_df['gender'].replace({1: 0, 2: 1})
+telecom_df['job'] = telecom_df['job'].replace({1: 1, 2: 0})
+telecom_df['mobile_bundle'] = telecom_df['mobile_bundle'].replace({1: 1, 2: 0})
+```
+- 범주형 데이터 정규화
+```
+telecom_df['school'] = telecom_df['school']-1
+telecom_df['income'] = telecom_df['income']-1
+```
+- 원-핫 인코딩
+```
+df_encoded = pd.get_dummies(telecom_df, columns=['mar', 'region', 'telecom'], dtype='int')
+telecom_df = telecom_df.rename(columns={
+    'region_1': 'seoul',
+    'region_2': 'busan',
+    'region_3': 'daegu',
+    'region_4': 'incheon',
+    'region_5': 'gwangju',
+    'region_6': 'daejeon',
+    'region_7': 'ulsan',
+    'region_8': 'gyeonggi',
+    'region_9': 'gangwon',
+    'region_10': 'chungbuk',
+    'region_11': 'chungnam',
+    'region_12': 'jeonbuk',
+    'region_13': 'jeonnam',
+    'region_14': 'gyeongbuk',
+    'region_15': 'gyeongnam',
+    'region_16': 'jeju',
+    'region_17': 'sejong',
+    'telecom_1': 'skt',
+    'telecom_2': 'kt',
+    'telecom_3': 'lgu',
+    'telecom_4': 'mvno',
+})
+```
+### 최종 데이터 건수
+
+| 구분   |  건수    |
+|---------------|-------------|
+| 총 데이터         | 70,145  |
+| 유지        | 40,642  |
+| 이탈  | 29,503   |
+
+## 5-3. EDA
+- 통신사별 이탈 흐름 
+> <img width="70%" height="70%" alt="newplot" src="https://github.com/user-attachments/assets/72cf1c24-0416-4eab-960a-0d728add029f" />
+> <img width="60%" height="60%" alt="image (1)" src="https://github.com/user-attachments/assets/fecc49ea-e781-4853-a5d6-75828a661034" />
+- 결합 상품 유무에 따른 통신사별 이탈률
+> <img width="986" height="590" alt="image (4)" src="https://github.com/user-attachments/assets/6bb9c1de-b0bd-48f7-b791-4ad920854fed" />
+- 나이대별 이탈률
+> <img width="70%" height="70%" alt="image (2)" src="https://github.com/user-attachments/assets/4bf81513-c5fd-4b08-b08f-709eaf83d3ff" />
+> <img width="70%" height="70%" alt="image (5)" src="https://github.com/user-attachments/assets/7f8b9966-0f24-485a-afe0-e2724bc89071" />
+- 소득수준별 이탈률
+> <img width="70%" height="70%" alt="image (3)" src="https://github.com/user-attachments/assets/a751e0f9-36de-4286-992a-49798991dc5f" />
+> <img width="70%" height="70%" alt="image (6)" src="https://github.com/user-attachments/assets/35027cf8-5d3d-48ce-83ab-59daffd07741" />
+- 전년 대비 소득 증감에 따른 이탈률
+> <img width="60%" height="60%" alt="image (7)" src="https://github.com/user-attachments/assets/f5bba7d4-39c9-481d-8309-dc20f8585ab9" />
+- 이탈 직전 2년간의 소득 대비 휴대폰 요금 부담률(평균)
+> <img width="566" height="294" alt="image (8)" src="https://github.com/user-attachments/assets/a3841aad-6c54-4e23-b903-2855bbce3b40" />
+
+### 종합 결론
+- 통신사의 고객 이탈률은 특정 통신사(SKT) 여부, 결합 상품의 유무, 소득 대비 휴대폰 요금 부담률에 영향을 받음
+
+# 수정 필요
 
 
 # 6. 인공지능 학습 결과서
+## 6-1. 성능 향상을 위한 시도
+- EDA 후 머신러닝을 시도해 보는 과정에서 성능이 생각보다 낮은 문제 발생 → 여러 방법으로 시도
+
+### 6-1-1. 데이터 증강
+- 기존: 9년치 데이터에 전체 응답한 `id`만 수집/학습
+- 전체 데이터 추가
+<img width="572" height="130" alt="image" src="https://github.com/user-attachments/assets/2ebf1d20-17bb-4f0b-b8b2-ff485d5473af" />
+
+- 최소 2년 연속 응답자 데이터 추가 (총 데이터 85,288건)
+<img width="582" height="467" alt="image" src="https://github.com/user-attachments/assets/547e9a25-7170-4c45-b3b2-c17f7b31c2d2" />
+
+> LightGBM 모델 학습 결과
+> 
+> <img width="60%" height="60%" alt="image" src="https://github.com/user-attachments/assets/c4939175-44ea-48e0-a2d7-a2eb5378bc53" />
+
+### 6-1-2. 이탈률 기준 변경
+- 기존: 1년 기준으로 통신사 변동 있을 경우, 이탈로 간주
+- 2년 유지 후 통신사 변동 있을 경우, 이탈로 간주
+<결과>
+
+- 3년 이후 유지 데이터는 표본의 개수가 적어 활용 불가
+
+### 6-1-3. 하이퍼 파라미터 튜닝
+
+### 6-1-4. 파생 변수 생성
+- 가입기간 변수
+<img width="568" height="120" alt="image" src="https://github.com/user-attachments/assets/098af0ed-5523-4aea-94a2-7903d34a19ce" />
+
+
+
+## 6-2. 최종 모델 선정
+최종 모델 성능 지표
+최종 모델 변수 영향 확인
+
 # 7. 수행결과
-# 8. 한계점 
+## streamlit page
+## 주요 기능
+
+# 8. 한계점
+- 선정한 데이터가 고객의 이탈 여부에 관한 직접적인 데이터가 아닌 여러 가지 미디어 및 통신에 관련된 설문조사 결과
+- 이탈률을 직접 정의하고 필요한 여러 변수들을 직접 고른 탓에 완벽하지 않은 데이터셋이 만들어졌을 수 있다는 가능성
+- 다양한 분류 모델을 사용해, 오버샘플링, 하이퍼파라미터 튜닝 등 여러 가지 시도를 했음에도 모델의 성능을 특정 역치 이상으로 올리는 데 어려움 존재
+
 # 9. 한 줄 회고
+- 권민세
+```
+```
+- 김수진
+```
+```
+- 김유진
+```
+```
+- 류지우
+```
+```
+- 전윤우
+```
+```
