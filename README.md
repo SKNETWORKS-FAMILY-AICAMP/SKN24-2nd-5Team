@@ -55,8 +55,9 @@
 | 분류 | 기술/도구 |
 |---|---|
 | 언어 | ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) |
-| 라이브러리 | ![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white) ![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white) ![Matplotlib](https://img.shields.io/badge/Matplotlib-11557c?style=for-the-badge) ![seaborn](https://img.shields.io/badge/Seaborn-11557c?style=for-the-badge) ![XGBoost](https://img.shields.io/badge/XGBoost-FF6600?style=for-the-badge) <br> ![GradientBoosting](https://img.shields.io/badge/GradientBoosting-00A8E8?style=for-the-badge) ![RandomForest](https://img.shields.io/badge/RandomForest-228B22?style=for-the-badge) ![DecisionTree](https://img.shields.io/badge/DecisionTree-8B4513?style=for-the-badge) ![ScikitLearn](https://img.shields.io/badge/Scikit--Learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white) |
-| 협업 툴 | ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white) |
+| 라이브러리 | ![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white) ![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white) ![Matplotlib](https://img.shields.io/badge/Matplotlib-11557c?style=for-the-badge) ![seaborn](https://img.shields.io/badge/Seaborn-11557c?style=for-the-badge) ![ScikitLearn](https://img.shields.io/badge/Scikit--Learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white) |
+| 모델 |![XGBoost](https://img.shields.io/badge/XGBoost-FF6600?style=for-the-badge) ![LightGBM](https://img.shields.io/badge/LightGBM-00A8E8?style=for-the-badge) ![RandomForest](https://img.shields.io/badge/RandomForest-228B22?style=for-the-badge) ![DecisionTree](https://img.shields.io/badge/DecisionTree-8B4513?style=for-the-badge) |
+| 협업 툴 | ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white) ![Notion](https://img.shields.io/badge/Notion-181717?style=for-the-badge&logo=noton&logoColor=white)|
 # 4. WBS
 <img width="1492" height="707" alt="image" src="https://github.com/user-attachments/assets/348c6656-9d25-4adf-8325-88783acd5ecb" />
 
@@ -192,6 +193,7 @@ telecom_df = telecom_df.rename(columns={
 ## 6-1. 성능 향상을 위한 시도
 - EDA 후 머신러닝을 시도해 보는 과정에서 성능이 생각보다 낮은 문제 발생 → 여러 방법으로 시도
 - 하이퍼 파라미터 조정은 모델 학습마다 시도
+<img width="637" height="206" alt="image" src="https://github.com/user-attachments/assets/e319d81a-27ac-490e-ab64-e8661dab6007" />
 
 ### 6-1-1. 데이터 증강
 - 기존: 9년치 데이터에 전체 응답한 `id`만 수집/학습
