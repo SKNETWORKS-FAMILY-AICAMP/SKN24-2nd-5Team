@@ -58,7 +58,7 @@
 | 라이브러리 | ![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white) ![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white) ![Matplotlib](https://img.shields.io/badge/Matplotlib-11557c?style=for-the-badge) ![XGBoost](https://img.shields.io/badge/XGBoost-FF6600?style=for-the-badge) <br> ![GradientBoosting](https://img.shields.io/badge/GradientBoosting-00A8E8?style=for-the-badge) ![RandomForest](https://img.shields.io/badge/RandomForest-228B22?style=for-the-badge) ![DecisionTree](https://img.shields.io/badge/DecisionTree-8B4513?style=for-the-badge) ![ScikitLearn](https://img.shields.io/badge/Scikit--Learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white) |
 | 협업 툴 | ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white) |
 # 4. WBS
-<img width="1497" height="712" alt="image" src="https://github.com/user-attachments/assets/560d8d1b-75df-4bc1-9d82-da41e003bfc2" />
+<img width="1492" height="707" alt="image" src="https://github.com/user-attachments/assets/348c6656-9d25-4adf-8325-88783acd5ecb" />
 
 # 5. 데이터 전처리 결과서 (EDA)
 ## 5-1. 데이터 소개
