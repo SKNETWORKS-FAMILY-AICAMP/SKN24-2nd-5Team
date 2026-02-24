@@ -98,9 +98,10 @@ merged_df = pd.concat(df_list, ignore_index=True)
 
 merged_df.to_csv("../../data/processed/merged_telecom.csv", index=False)
 ```
-- 공백으로 수집된 결측치 제거
+- 공백으로 수집된 결측치 제거, 9년 미만 응답자 제거
 ```
 telecom_df = telecom_df[(telecom_df != " ").all(axis=1)]
+telecom_df = telecom_df[telecom_df_count>=9]
 ```
 
 #### 이탈률 정의
@@ -156,19 +157,18 @@ telecom_df = telecom_df.rename(columns={
 
 | 구분   |  건수    |
 |---------------|-------------|
-| 총 데이터         | 70,145  |
-| 유지        | 40,642  |
-| 이탈  | 29,503   |
+| 총 데이터         | 34,371  |
+| 유지        | 22,948  |
+| 이탈  | 11,423   |
 
 ## 5-3. EDA
 - 통신사별 이탈 흐름 
-> <img width="70%" height="70%" alt="newplot" src="https://github.com/user-attachments/assets/72cf1c24-0416-4eab-960a-0d728add029f" />
+> <img width="998" height="700" alt="통신사고객흐름도" src="https://github.com/user-attachments/assets/13d6797c-fdfc-47ac-bcff-67c55cd39203" />
 > <img width="60%" height="60%" alt="image (1)" src="https://github.com/user-attachments/assets/fecc49ea-e781-4853-a5d6-75828a661034" />
 - 결합 상품 유무에 따른 통신사별 이탈률
 > <img width="986" height="590" alt="image (4)" src="https://github.com/user-attachments/assets/6bb9c1de-b0bd-48f7-b791-4ad920854fed" />
 - 나이대별 이탈률
 > <img width="70%" height="70%" alt="image (2)" src="https://github.com/user-attachments/assets/4bf81513-c5fd-4b08-b08f-709eaf83d3ff" />
-> <img width="70%" height="70%" alt="image (5)" src="https://github.com/user-attachments/assets/7f8b9966-0f24-485a-afe0-e2724bc89071" />
 - 소득수준별 이탈률
 > <img width="70%" height="70%" alt="image (3)" src="https://github.com/user-attachments/assets/a751e0f9-36de-4286-992a-49798991dc5f" />
 > <img width="70%" height="70%" alt="image (6)" src="https://github.com/user-attachments/assets/35027cf8-5d3d-48ce-83ab-59daffd07741" />
@@ -233,6 +233,7 @@ telecom_df = telecom_df.rename(columns={
 ```
 - 김수진
 ```
+이번 통신사 고객 이탈 예측 프로젝트를 진행하면서, 데이터 정의와 feature 설계가 얼마나 중요한지 깨달았습니다. 처음에는 여러 모델(Logistic Regression, RandomForest, XGBoost, HistGradientBoosting)을 비교하면서 정확도나 F1-score에 집중했지만, 결과를 자세히 살펴보니 모델 성능 차이보다도 threshold 설정과 이탈 기준 정의도 결과에 큰 영향을 준다는 점을 깨달았습니다.
 ```
 - 김유진
 ```
