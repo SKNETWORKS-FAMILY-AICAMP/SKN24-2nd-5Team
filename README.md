@@ -101,7 +101,7 @@ merged_df = pd.concat(df_list, ignore_index=True)
 
 merged_df.to_csv("../../data/processed/merged_telecom.csv", index=False)
 ```
-- 공백으로 수집된 결측치 제거, 10년 미만 응답자 제거
+- 공백으로 수집된 결측치 제거, 10년 이하 응답자 제거
 ```python
 telecom_df = pd.read_csv('../../data/processed/merged_telecom.csv')
 telecom_df = telecom_df[(telecom_df != " ").all(axis=1)]
@@ -110,7 +110,7 @@ telecom_df = telecom_df[telecom_df_count>=10]
 telecom_df.to_csv("../../data/processed/merged_telecom.csv", index=False)
 ```
 
-#### 이탈률 정의
+### 이탈률 정의
 - 작년과 비교하여 올해 통신사가 달라진 경우, 이탈로 간주 (이탈 - 1 / 이탈하지 않음 - 0)
 ```python
 telecom_df['telecom_change'] = telecom_df.groupby('id')['telecom'].shift(1)
