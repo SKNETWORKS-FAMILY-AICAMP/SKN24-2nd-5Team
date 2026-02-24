@@ -22,41 +22,27 @@ def load_data():
 df = load_data()
 
 @st.cache_resource
-def train_model():
-    # 데이터 로드 및 학습 (실제 서비스에서는 학습된 모델 .pkl 파일을 불러오는 것이 좋습니다)
-    df = pd.read_csv('../../data/processed/telecom_encoding.csv')
+def load_trained_model():
+    # 1. 저장된 모델 파일 불러오기
+    model = joblib.load('../../model/xgb_model.joblib')
     
-    # 모델 학습 시 제외했던 컬럼들 동일하게 적용
-    X = df.drop(['telecom_change_yn', 'mar_1', 'mar_2', 'mar_3', 'mar_4', 'gender'], axis=1)
-    y = df['telecom_change_yn']
-    
-    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=24)
-    
-    # 제공해주신 최적 파라미터 적용
-    xgb_clf = XGBClassifier(
-        n_estimators=1000, learning_rate=0.03, max_depth=7,
-        min_child_weight=3, scale_pos_weight=1.37, subsample=0.8,
-        colsample_bytree=0.8, random_state=42, eval_metric='logloss'
-    )
-    xgb_clf.fit(X_train, y_train)
-    return xgb_clf, X.columns
-# 모델과 컬럼 리스트 준비
-model, model_columns = train_model()
+    # 2. 모델 객체에서 직접 컬럼 리스트 추출하기
+    # XGBoost 모델은 학습 시 사용된 피처 이름을 보관하고 있습니다.
+    try:
+        columns = model.get_booster().feature_names
+    except AttributeError:
+        # 모델 타입에 따라 속성명이 다를 수 있으므로 예외 처리
+        columns = model.feature_names_in_.tolist()
+        
+    return model, columns
 
-# @st.cache_resource
-# def load_trained_model():
-#     # 저장된 모델 파일 불러오기
-#     model = joblib.load('xgb_model.pkl')
-#     # 저장된 컬럼 리스트 불러오기
-#     columns = joblib.load('model_columns.pkl')
-#     return model, columns
-
-# # 모델 로드
-# try:
-#     model, model_columns = load_trained_model()
-# except FileNotFoundError:
-#     st.error("모델 파일(xgb_model.pkl)을 찾을 수 없습니다. 경로를 확인해주세요.")
-#     st.stop()
+# 모델 로드 부분
+try:
+    model, model_columns = load_trained_model()
+    # st.write(model_columns) # 주석 해제하여 컬럼이 잘 들어왔는지 확인 가능
+except FileNotFoundError:
+    st.error("모델 파일(xgb_model.joblib)을 찾을 수 없습니다.")
+    st.stop()
 
 # 사이드바 메뉴
 st.sidebar.title("통신사 이탈 분석 서비스")
@@ -125,24 +111,24 @@ if page == "개인별 이탈 예측":
     # 1. 사이드바나 메인 화면에 가이드 추가
     with st.expander("💰 소득 수준 가이드 확인하기"):
         st.write("""
-        - 1	   : 소득 없음
-        - 2	   : 50만 원 미만
-        - 3	   : 500100만 원 미만
-        - 4	   : 1000150만 원 미만
-        - 5	   : 1500200만 원 미만
-        - 6	   : 2000250만 원 미만
-        - 7	   : 2500300만 원 미만
-        - 8	   : 3000350만 원 미만
-        - 9	   : 3500400만 원 미만
-        - 10   : 4000450만 원 미만
-        - 11   : 4500500만 원 미만
-        - 12   : 5000550만 원 미만
-        - 13   : 5500600만 원 미만
-        - 14   : 6000650만 원 미만
-        - 15   : 6500700만 원 미만
-        - 16   : 7000750만 원 미만
-        - 17   : 7500800만 원 미만
-        - 18   : 800만 원 이상
+        - 0	   : 소득 없음
+        - 1	   : 50만 원 미만
+        - 2	   : 500100만 원 미만
+        - 3	   : 1000150만 원 미만
+        - 4	   : 1500200만 원 미만
+        - 5	   : 2000250만 원 미만
+        - 6	   : 2500300만 원 미만
+        - 7	   : 3000350만 원 미만
+        - 8	   : 3500400만 원 미만
+        - 9   : 4000450만 원 미만
+        - 10   : 4500500만 원 미만
+        - 11   : 5000550만 원 미만
+        - 12   : 5500600만 원 미만
+        - 13   : 6000650만 원 미만
+        - 14   : 6500700만 원 미만
+        - 15   : 7000750만 원 미만
+        - 16   : 7500800만 원 미만
+        - 17   : 800만 원 이상
         """)
     with st.expander("📕 학력 수준 가이드 확인하기"):
         st.write("""
@@ -168,13 +154,13 @@ if page == "개인별 이탈 예측":
         with col2:
             st.subheader("통신 이용 행태")
             telecom = st.selectbox("현재 통신사", ["SKT", "KT", "LG U+", "MVNO"])
-            usage = st.number_input("월평균 요금 (만원)", 0, 100, 5)
+            usage = st.number_input("월평균 요금 (천원)", 0, 100, 20)
             bundle = st.radio("결합상품 가입", ["가입 (1)", "미가입 (0)"], index=0)
             
         with col3:
             st.subheader("경제 지표")
-            income = st.slider("월평균 소득 수준 (1-18)", 1, 18, 5)
-            year = st.selectbox("기준 연도", [2024, 2025])
+            income = st.slider("월평균 소득 수준 (0-17)", 0, 17, 5)
+            year = st.selectbox("기준 연도", [2017,2018,2019,2020,2021,2022, 2023, 2024, 2025], index=4)
             # 지역 정보는 데이터가 많으므로 서울을 기본값으로 설정
             region = st.selectbox("거주 지역", ["seoul", "busan", "daegu", "incheon", "gwangju", "daejeon", "ulsan", "gyeonggi", "gangwon", "chungbuk", "chungnam", "jeonbuk", "jeonnam", "gyeongbuk", "gyeongnam", "jeju", "sejong"])
 
