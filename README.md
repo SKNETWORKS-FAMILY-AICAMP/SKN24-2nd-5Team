@@ -261,8 +261,10 @@ telecom_df['income_if_job'] = (
 > <img width="623" height="236" alt="파생변수-x" src="https://github.com/user-attachments/assets/1cfa197e-520a-4077-a441-bcb27f2426a8" />
 
 ## 6-2. 최종 모델 선정
-최종 모델 성능 지표
-최종 모델 변수 영향 확인
+<img width="618" height="228" alt="xgboost 파생변수 적용 x" src="https://github.com/user-attachments/assets/9bd040ec-fb78-4bd7-a1f1-698c0e680526" />
+- 약 63%의 정확도
+- 이탈 고객(1)을 찾아내는 Recall(재현율)이 0.61로, 실제 이탈자의 약 60% 이상을 찾을 수 있음
+- 이전까지의 시도했던 결과들 중에서 가장 안정적인 수치이므로 선정
 
 # 7. 수행결과
 ## streamlit page
