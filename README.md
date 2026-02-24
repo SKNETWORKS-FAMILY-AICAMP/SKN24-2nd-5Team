@@ -170,7 +170,7 @@ telecom_df = telecom_df.rename(columns={
 > <img width="70%" height="70%" alt="통신사고객흐름도" src="https://github.com/user-attachments/assets/13d6797c-fdfc-47ac-bcff-67c55cd39203" />
 > <img width="60%" height="60%" alt="image (1)" src="https://github.com/user-attachments/assets/fecc49ea-e781-4853-a5d6-75828a661034" />
 - 결합 상품 유무에 따른 통신사별 이탈률
-> <img width="80%" height="80%" alt="통신사별 결합상품유무에 따른 이탈률" src="https://github.com/user-attachments/assets/025c1771-11dd-4099-9d27-2060e9758cbb" />
+> <img width="1187" height="690" alt="통신사별 결합상품유무에 따른 이탈률" src="https://github.com/user-attachments/assets/3463570a-11e8-4f37-8a79-e01f44f0ce9d" />
 > <img width="80%" height="80%" alt="결합상품 유무에 따른 연도별 이탈률" src="https://github.com/user-attachments/assets/2345e93c-64af-4596-ae27-3fc685047fa9" />
 - 나이대별 이탈률
 > <img width="70%" height="70%" alt="image (2)" src="https://github.com/user-attachments/assets/4bf81513-c5fd-4b08-b08f-709eaf83d3ff" />
@@ -191,6 +191,8 @@ telecom_df = telecom_df.rename(columns={
 - EDA 후 머신러닝을 시도해 보는 과정에서 성능이 생각보다 낮은 문제 발생 → 여러 방법으로 시도
 - 하이퍼 파라미터 조정은 모델 학습마다 시도
 <img width="70%" height="70%" alt="image" src="https://github.com/user-attachments/assets/21ce43c3-e054-4d80-b617-bdabfd855cbc" />
+
+
 - XGBoost 임계치 조정
 > 조정 O
 >
