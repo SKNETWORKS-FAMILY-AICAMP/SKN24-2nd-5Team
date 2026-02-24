@@ -170,7 +170,7 @@ telecom_df = telecom_df.rename(columns={
 > <img width="70%" height="70%" alt="통신사고객흐름도" src="https://github.com/user-attachments/assets/13d6797c-fdfc-47ac-bcff-67c55cd39203" />
 > <img width="60%" height="60%" alt="image (1)" src="https://github.com/user-attachments/assets/fecc49ea-e781-4853-a5d6-75828a661034" />
 - 결합 상품 유무에 따른 통신사별 이탈률
-> <img width="1187" height="690" alt="통신사별 결합상품유무에 따른 이탈률" src="https://github.com/user-attachments/assets/3463570a-11e8-4f37-8a79-e01f44f0ce9d" />
+> <img width="80%" height="80%" alt="통신사별 결합상품유무에 따른 이탈률" src="https://github.com/user-attachments/assets/3463570a-11e8-4f37-8a79-e01f44f0ce9d" />
 > <img width="80%" height="80%" alt="결합상품 유무에 따른 연도별 이탈률" src="https://github.com/user-attachments/assets/2345e93c-64af-4596-ae27-3fc685047fa9" />
 - 나이대별 이탈률
 > <img width="70%" height="70%" alt="image (2)" src="https://github.com/user-attachments/assets/4bf81513-c5fd-4b08-b08f-709eaf83d3ff" />
@@ -277,10 +277,12 @@ telecom_df['income_if_job'] = (
 ```
 - 김유진
 ```
+지금까지의 프로젝트를 통해 데이터로 말하는 방법을 익히고, 머신러닝 모델 학습을 시키며 다양한 시도를 하고자 하는 생각의 전환을 가지게 되었습니다. 이전 프로젝트에서 아쉬웠던 데이터의 이해도를 쌓기 위해 기획 단계에서부터 팀원들과 소통하며 이야기를 나누었습니다. 아쉬운 점은 이번 조사 데이터가 미디어 관련 설문조사이긴 하지만 막상 EDA와 머신러닝을 진행해 보니 이탈률에 영향을 미칠 만한 데이터는 적었던 것이 제일 아쉬웠습니다. 구하고자 하는 타겟이 다양한 내외부 변수에 의해 달라질 수 있음을 다시 한번 깨달았고, 이후 프로젝트에서는 익숙해진 만큼의 다양한 분석과 시도를 해보고자 합니다.  
 ```
 - 류지우
 ```
 ```
 - 전윤우
 ```
+선정한 데이터가 고객 이탈에 관한 테이터가 아닌 단순 설문 데이터였기 때문에, 이탈에 관한 직접적인 정보가 없어 팀원들과 직접 '이탈'을 정의해주어야 했습니다. 그 과정에서 어떤 지점을 '이탈'로 볼 것인지에 대한 고민을 했으며 이 과정에서 필요에 따라 적절한 변수를 정의하는 과정을 배울 수 있었습니다. 팀원들과 심사숙고하며 여러 변수들을 고르고, 전처리에 최선을 다했음에도 여전히 데이터가 완전하지는 못했기에 EDA를 하면서도, 모델을 선정하고 성능 개선 방법론을 적용할 때에도 만족할 만한 결과가 나오지는 않았습니다. 그러나 정제된 데이터가 아닌 진짜 raw data를 활용해서 머신러닝의 파이프라인을 경험할 수 있었다는 점에서 의의가 있었습니다.
 ```
