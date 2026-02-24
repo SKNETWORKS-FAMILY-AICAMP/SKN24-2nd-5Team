@@ -283,8 +283,7 @@ telecom_df['income_if_job'] = (
 
 
 - 류지우
->
->
+> 
 
 
 - 전윤우
