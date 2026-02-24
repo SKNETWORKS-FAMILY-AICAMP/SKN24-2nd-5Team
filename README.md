@@ -186,14 +186,19 @@ telecom_df = telecom_df.rename(columns={
 ### 종합 결론
 - 통신사의 고객 이탈률은 특정 통신사(SKT) 여부, 결합 상품의 유무, 소득 대비 휴대폰 요금 부담률에 영향을 받음
 
-# 수정 필요
-
-
 # 6. 인공지능 학습 결과서
 ## 6-1. 성능 향상을 위한 시도
 - EDA 후 머신러닝을 시도해 보는 과정에서 성능이 생각보다 낮은 문제 발생 → 여러 방법으로 시도
 - 하이퍼 파라미터 조정은 모델 학습마다 시도
-<img width="637" height="206" alt="image" src="https://github.com/user-attachments/assets/e319d81a-27ac-490e-ab64-e8661dab6007" />
+<img width="70%" height="70%" alt="image" src="https://github.com/user-attachments/assets/21ce43c3-e054-4d80-b617-bdabfd855cbc" />
+- XGBoost 임계치 조정
+> 조정 O
+>
+><img width="70%" height="70%" alt="xgboost 임계치 조정" src="https://github.com/user-attachments/assets/6bfb7eab-af0e-47fa-b13d-4db6c716d703" />
+
+> 조정 X
+>
+> <img width="70%" height="70%" alt="xgboost 임계치 조정x" src="https://github.com/user-attachments/assets/a177b9a9-5668-46df-806a-0d1335d9eb51" />
 
 ### 6-1-1. 데이터 증강
 - 기존: 9년치 데이터에 전체 응답한 `id`만 수집/학습
@@ -201,7 +206,7 @@ telecom_df = telecom_df.rename(columns={
 <img width="572" height="130" alt="image" src="https://github.com/user-attachments/assets/2ebf1d20-17bb-4f0b-b8b2-ff485d5473af" />
 
 - 최소 2년 연속 응답자 데이터 추가 (총 데이터 85,288건)
-<img width="582" height="467" alt="image" src="https://github.com/user-attachments/assets/547e9a25-7170-4c45-b3b2-c17f7b31c2d2" />
+<img width="70%" height="70%" alt="image" src="https://github.com/user-attachments/assets/547e9a25-7170-4c45-b3b2-c17f7b31c2d2" />
 
 > LightGBM 모델 학습 결과
 > 
@@ -246,6 +251,14 @@ telecom_df['income_if_job'] = (
 # 7. 수행결과
 ## streamlit page
 ## 주요 기능
+✔️ 고객의 이탈 확률 제공 및 고객 분석 결과 제공
+✔️ 통신사별 이탈률 데이터 분석 자료 제공
+
+<img width="1919" height="832" alt="메인" src="https://github.com/user-attachments/assets/7b87b806-626b-4871-a7d8-1aec4e0375cc" />
+<img width="1919" height="856" alt="칼럼명설명" src="https://github.com/user-attachments/assets/0c9d5047-7b6f-4431-a5c2-d41b9e6786ef" />
+<img width="1919" height="841" alt="개인 이탈 고객 가능성 예측 페이지" src="https://github.com/user-attachments/assets/21209f60-432b-4cee-b944-ada57c892b70" />
+<img width="1919" height="804" alt="이탈 예측 결과" src="https://github.com/user-attachments/assets/4872cb9f-70fc-4542-8986-9db8539539a6" />
+<img width="1915" height="836" alt="분석결과" src="https://github.com/user-attachments/assets/06784e17-9d1d-4752-a658-14e9c9ea94cc" />
 
 # 8. 한계점
 - 선정한 데이터가 고객의 이탈 여부에 관한 직접적인 데이터가 아닌 여러 가지 미디어 및 통신에 관련된 설문조사 결과
