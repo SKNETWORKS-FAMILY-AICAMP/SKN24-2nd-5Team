@@ -4,8 +4,8 @@
 **Girl's night** 🪅
 ## 1-2. 팀원 소개
 |전윤우|류지우|김유진|김수진|권민세|
-|----|---|---|---|---|
-| 이미지 | 이미지 | 이미지 | 이미지 | 이미지 |
+|---|---|---|---|---|
+|  <img width="70%" height="70%" alt="고양" src="https://github.com/user-attachments/assets/dad13c12-cf7d-4766-ba3f-7d6fa9f0affa" />  | <img width="507" height="495" alt="펭" src="https://github.com/user-attachments/assets/21fb66e5-1fb1-4b9c-8dda-cb8a2f994386" /> |  <img width="70%" height="70%" alt="카피" src="https://github.com/user-attachments/assets/ff0e5fb8-f887-451a-b921-d74c0233c424" />  |  <img width="70%" height="70%" alt="강아" src="https://github.com/user-attachments/assets/d754ed6b-2cf0-43cb-90fe-fc0a534344ab" />  |  <img width="50%" height="50%" alt="원숭" src="https://github.com/user-attachments/assets/c1342844-60f4-4489-9831-3db53cf93d9e" />  |
 | [Yunu-Jeon](https://github.com/Yunu-Jeon) | [jia11234](https://github.com/jia11234) | [youjin](https://github.com/shortcut-2) | [Sujin Kim](https://github.com/KimSujin02) | [KweonMinSe0109](https://github.com/KweonMinSe0109) |
 # 2. 프로젝트 개요
 ## 2-1. 프로젝트 명
@@ -55,7 +55,7 @@
 | 분류 | 기술/도구 |
 |---|---|
 | 언어 | ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) |
-| 라이브러리 | ![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white) ![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white) ![Matplotlib](https://img.shields.io/badge/Matplotlib-11557c?style=for-the-badge) ![XGBoost](https://img.shields.io/badge/XGBoost-FF6600?style=for-the-badge) <br> ![GradientBoosting](https://img.shields.io/badge/GradientBoosting-00A8E8?style=for-the-badge) ![RandomForest](https://img.shields.io/badge/RandomForest-228B22?style=for-the-badge) ![DecisionTree](https://img.shields.io/badge/DecisionTree-8B4513?style=for-the-badge) ![ScikitLearn](https://img.shields.io/badge/Scikit--Learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white) |
+| 라이브러리 | ![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white) ![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white) ![Matplotlib](https://img.shields.io/badge/Matplotlib-11557c?style=for-the-badge) ![seaborn](https://img.shields.io/badge/Seaborn-11557c?style=for-the-badge) ![XGBoost](https://img.shields.io/badge/XGBoost-FF6600?style=for-the-badge) <br> ![GradientBoosting](https://img.shields.io/badge/GradientBoosting-00A8E8?style=for-the-badge) ![RandomForest](https://img.shields.io/badge/RandomForest-228B22?style=for-the-badge) ![DecisionTree](https://img.shields.io/badge/DecisionTree-8B4513?style=for-the-badge) ![ScikitLearn](https://img.shields.io/badge/Scikit--Learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white) |
 | 협업 툴 | ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white) |
 # 4. WBS
 <img width="1492" height="707" alt="image" src="https://github.com/user-attachments/assets/348c6656-9d25-4adf-8325-88783acd5ecb" />
@@ -191,6 +191,7 @@ telecom_df = telecom_df.rename(columns={
 # 6. 인공지능 학습 결과서
 ## 6-1. 성능 향상을 위한 시도
 - EDA 후 머신러닝을 시도해 보는 과정에서 성능이 생각보다 낮은 문제 발생 → 여러 방법으로 시도
+- 하이퍼 파라미터 조정은 모델 학습마다 시도
 
 ### 6-1-1. 데이터 증강
 - 기존: 9년치 데이터에 전체 응답한 `id`만 수집/학습
@@ -204,20 +205,37 @@ telecom_df = telecom_df.rename(columns={
 > 
 > <img width="60%" height="60%" alt="image" src="https://github.com/user-attachments/assets/c4939175-44ea-48e0-a2d7-a2eb5378bc53" />
 
+- SMOTE로 이탈 데이터 증강
+<img width="613" height="223" alt="smote" src="https://github.com/user-attachments/assets/10d9fb85-5ed3-4b24-9f9d-a999138cf8c5" />
+
 ### 6-1-2. 이탈률 기준 변경
 - 기존: 1년 기준으로 통신사 변동 있을 경우, 이탈로 간주
 - 2년 유지 후 통신사 변동 있을 경우, 이탈로 간주
-<결과>
+<img width="586" height="311" alt="이탈률 재정의" src="https://github.com/user-attachments/assets/4b53cf97-1475-4763-bbea-ff5ce9305795" />
 
 - 3년 이후 유지 데이터는 표본의 개수가 적어 활용 불가
 
-### 6-1-3. 하이퍼 파라미터 튜닝
-
-### 6-1-4. 파생 변수 생성
+### 6-1-3. 파생 변수 생성
 - 가입기간 변수
 <img width="568" height="120" alt="image" src="https://github.com/user-attachments/assets/098af0ed-5523-4aea-94a2-7903d34a19ce" />
+<br>
 
-
+- 소득 대비 휴대폰 요금 부담률
+```
+telecom_df['usage_income_ratio'] = (
+    telecom_df['phone_usage_per_m'] / (telecom_df['income'] + 1)
+)
+```
+- 직업 기반 소득 안정성
+```
+telecom_df['income_if_job'] = (
+    telecom_df['job'] * telecom_df['income']
+)
+```
+> 파생 변수 적용 후
+> 
+> <img width="614" height="230" alt="파생변수=ㅐ" src="https://github.com/user-attachments/assets/6cded041-7bbb-485a-97c0-f4e24a15acaf" />
+> <img width="623" height="236" alt="파생변수-x" src="https://github.com/user-attachments/assets/1cfa197e-520a-4077-a441-bcb27f2426a8" />
 
 ## 6-2. 최종 모델 선정
 최종 모델 성능 지표
