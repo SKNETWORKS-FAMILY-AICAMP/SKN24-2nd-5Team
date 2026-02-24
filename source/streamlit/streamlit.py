@@ -46,7 +46,8 @@ except FileNotFoundError:
 
 # 사이드바 메뉴
 st.sidebar.title("통신사 이탈 분석 서비스")
-page = st.sidebar.radio("메뉴 선택", ["프로젝트 개요", "개인별 이탈 예측", "통신사별 이탈률 분석", "모델 피처 중요도"])
+page = st.sidebar.radio("메뉴 선택", ["프로젝트 개요", "개인별 이탈 예측", "통신사별 이탈률 분석"])
+# page = st.sidebar.radio("메뉴 선택", ["프로젝트 개요", "개인별 이탈 예측", "통신사별 이탈률 분석", "모델 피처 중요도"])
 
 # ---------------------------------------------------------
 # 페이지 0: 프로젝트 개요 (Overview)
@@ -252,11 +253,11 @@ elif page == "통신사별 이탈률 분석":
 # 페이지 3: 피처 중요도
 # ---------------------------------------------------------
 # 피처 중요도 페이지도 실제 모델 기반으로 자동 업데이트 되도록 수정
-elif page == "모델 피처 중요도":
-    st.title("🔑 XGBoost 피처 중요도 (Feature Importance)")
-    feat_impt_ser = pd.Series(model.feature_importances_, index=model_columns).sort_values(ascending=True)
+# elif page == "모델 피처 중요도":
+#     st.title("🔑 XGBoost 피처 중요도 (Feature Importance)")
+#     feat_impt_ser = pd.Series(model.feature_importances_, index=model_columns).sort_values(ascending=True)
     
-    fig, ax = plt.subplots(figsize=(5, 3))
-    feat_impt_ser.tail(15).plot(kind='barh', ax=ax, color='orange')
-    ax.set_title("상위 15개 핵심 변수")
-    st.pyplot(fig)
+#     fig, ax = plt.subplots(figsize=(5, 3))
+#     feat_impt_ser.tail(15).plot(kind='barh', ax=ax, color='orange')
+#     ax.set_title("상위 15개 핵심 변수")
+#     st.pyplot(fig)
