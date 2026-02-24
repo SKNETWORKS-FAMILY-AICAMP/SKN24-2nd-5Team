@@ -230,29 +230,41 @@ if page == "개인별 이탈 예측":
 elif page == "통신사별 이탈률 분석":
     st.title("📊 통신사별 데이터 분석")
 
-    # 원-핫 인코딩된 통신사를 하나로 합쳐서 시각화
+        # 원-핫 인코딩된 통신사를 하나로 합치기
     carrier_cols = ['skt', 'kt', 'lgu', 'mvno']
     df['telecom_label'] = df[carrier_cols].idxmax(axis=1).map({
-        'skt': 'SKT', 'kt': 'KT', 'lgu': 'LG U+', 'mvno': '알뜰폰 서비스'
+        'skt': 'SKT', 'kt': 'KT', 'lgu': 'LG U+', 'mvno': '알뜰폰'
     })
 
-    # 그래프 1: 통신사별 이탈률
-    st.subheader("1. 통신사별 평균 이탈률")
-    telecom_churn = df.groupby("telecom_label")["telecom_change_yn"].mean().sort_values()
-    
-    fig, ax = plt.subplots()
-    telecom_churn.plot(kind="bar", ax=ax, color='skyblue')
-    ax.set_ylabel("이탈률")
-    st.pyplot(fig)
+    # 1. 화면을 두 개의 컬럼으로 분할
+    col1, col2 = st.columns(2)
 
-    # 그래프 2: 결합상품 유무에 따른 이탈률 (상관계수 기반 추천 분석)
-    st.subheader("2. 결합상품 가입 여부에 따른 이탈률 비교")
-    bundle_churn = df.groupby(["telecom_label", "mobile_bundle"])["telecom_change_yn"].mean().unstack()
-    bundle_churn.columns = ['미가입', '가입']
-    
-    fig2, ax2 = plt.subplots()
-    bundle_churn.plot(kind="bar", ax=ax2)
-    st.pyplot(fig2)
+    with col1:
+        # 그래프 1: 통신사별 이탈률
+        st.subheader("1. 통신사별 평균 이탈률")
+        telecom_churn = df.groupby("telecom_label")["telecom_change_yn"].mean().sort_values()
+        
+        fig, ax = plt.subplots(figsize=(5, 4)) # 크기를 적절히 조절
+        telecom_churn.plot(kind="bar", ax=ax, color='skyblue', rot=0)
+        ax.set_ylabel("평균 이탈률")
+        ax.set_xlabel("통신사")
+        st.pyplot(fig)
+
+    with col2:
+        # 그래프 2: 결합상품 유무에 따른 이탈률
+        st.subheader("2. 결합상품 여부별 이탈률")
+        bundle_churn = df.groupby(["telecom_label", "mobile_bundle"])["telecom_change_yn"].mean().unstack()
+        bundle_churn.columns = ['미가입', '가입']
+        
+        fig2, ax2 = plt.subplots(figsize=(5, 4))
+        bundle_churn.plot(kind="bar", ax=ax2, rot=0)
+        ax2.set_ylabel("평균 이탈률")
+        ax2.set_xlabel("통신사")
+        ax2.legend(title="결합상품")
+        st.pyplot(fig2)
+
+    # 그래프 하단 설명 추가
+    st.info("💡 **분석 결과:** 알뜰폰(MVNO) 이용자의 이탈률이 가장 높으며, 모든 통신사에서 **결합상품 가입 시** 이탈률이 현저히 낮아지는 것을 확인할 수 있습니다.")
 # ---------------------------------------------------------
 # 페이지 3: 피처 중요도
 # ---------------------------------------------------------
@@ -261,7 +273,7 @@ elif page == "모델 피처 중요도":
     st.title("🔑 XGBoost 피처 중요도 (Feature Importance)")
     feat_impt_ser = pd.Series(model.feature_importances_, index=model_columns).sort_values(ascending=True)
     
-    fig, ax = plt.subplots(figsize=(10, 8))
+    fig, ax = plt.subplots(figsize=(5, 3))
     feat_impt_ser.tail(15).plot(kind='barh', ax=ax, color='orange')
     ax.set_title("상위 15개 핵심 변수")
     st.pyplot(fig)
