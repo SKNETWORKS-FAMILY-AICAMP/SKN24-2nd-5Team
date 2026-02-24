@@ -58,6 +58,8 @@
 | 라이브러리 | ![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white) ![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white) ![Matplotlib](https://img.shields.io/badge/Matplotlib-11557c?style=for-the-badge) ![XGBoost](https://img.shields.io/badge/XGBoost-FF6600?style=for-the-badge) <br> ![GradientBoosting](https://img.shields.io/badge/GradientBoosting-00A8E8?style=for-the-badge) ![RandomForest](https://img.shields.io/badge/RandomForest-228B22?style=for-the-badge) ![DecisionTree](https://img.shields.io/badge/DecisionTree-8B4513?style=for-the-badge) ![ScikitLearn](https://img.shields.io/badge/Scikit--Learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white) |
 | 협업 툴 | ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white) |
 # 4. WBS
+<img width="1497" height="712" alt="image" src="https://github.com/user-attachments/assets/560d8d1b-75df-4bc1-9d82-da41e003bfc2" />
+
 # 5. 데이터 전처리 결과서 (EDA)
 ## 5-1. 데이터 소개
 ### 데이터 선정
@@ -157,16 +159,18 @@ telecom_df = telecom_df.rename(columns={
 
 | 구분   |  건수    |
 |---------------|-------------|
-| 총 데이터         | 34,371  |
-| 유지        | 22,948  |
-| 이탈  | 11,423   |
+| 총 데이터         | 31,572  |
+| 유지        | 19,837  |
+| 이탈  | 11,735   |
+<img width="60%" height="60%" alt="전처리 완료" src="https://github.com/user-attachments/assets/30efcfce-8016-48b3-b2cc-9b0c09a3363b" />
 
 ## 5-3. EDA
 - 통신사별 이탈 흐름 
-> <img width="998" height="700" alt="통신사고객흐름도" src="https://github.com/user-attachments/assets/13d6797c-fdfc-47ac-bcff-67c55cd39203" />
+> <img width="70%" height="70%" alt="통신사고객흐름도" src="https://github.com/user-attachments/assets/13d6797c-fdfc-47ac-bcff-67c55cd39203" />
 > <img width="60%" height="60%" alt="image (1)" src="https://github.com/user-attachments/assets/fecc49ea-e781-4853-a5d6-75828a661034" />
 - 결합 상품 유무에 따른 통신사별 이탈률
-> <img width="986" height="590" alt="image (4)" src="https://github.com/user-attachments/assets/6bb9c1de-b0bd-48f7-b791-4ad920854fed" />
+> <img width="80%" height="80%" alt="통신사별 결합상품유무에 따른 이탈률" src="https://github.com/user-attachments/assets/025c1771-11dd-4099-9d27-2060e9758cbb" />
+> <img width="80%" height="80%" alt="결합상품 유무에 따른 연도별 이탈률" src="https://github.com/user-attachments/assets/2345e93c-64af-4596-ae27-3fc685047fa9" />
 - 나이대별 이탈률
 > <img width="70%" height="70%" alt="image (2)" src="https://github.com/user-attachments/assets/4bf81513-c5fd-4b08-b08f-709eaf83d3ff" />
 - 소득수준별 이탈률
@@ -174,8 +178,9 @@ telecom_df = telecom_df.rename(columns={
 > <img width="70%" height="70%" alt="image (6)" src="https://github.com/user-attachments/assets/35027cf8-5d3d-48ce-83ab-59daffd07741" />
 - 전년 대비 소득 증감에 따른 이탈률
 > <img width="60%" height="60%" alt="image (7)" src="https://github.com/user-attachments/assets/f5bba7d4-39c9-481d-8309-dc20f8585ab9" />
-- 이탈 직전 2년간의 소득 대비 휴대폰 요금 부담률(평균)
-> <img width="566" height="294" alt="image (8)" src="https://github.com/user-attachments/assets/a3841aad-6c54-4e23-b903-2855bbce3b40" />
+- 이탈자들의 직전 2년간의 소득 대비 휴대폰 요금 부담률(평균)
+> <img width="561" height="294" alt="image" src="https://github.com/user-attachments/assets/521087af-cf8d-440a-943a-46f208f8963d" />
+
 
 ### 종합 결론
 - 통신사의 고객 이탈률은 특정 통신사(SKT) 여부, 결합 상품의 유무, 소득 대비 휴대폰 요금 부담률에 영향을 받음
