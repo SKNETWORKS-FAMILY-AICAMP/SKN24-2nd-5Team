@@ -63,7 +63,7 @@
 
 # 5. 데이터 전처리 결과서 (EDA)
 ## 5-1. 데이터 소개
-### 데이터 선정
+#### 데이터 선정
 미디어통계포털의 미디어 패널 조사 자료 중, 2017년부터 2025년까지의 원시 데이터를 사용 <br>
 
 
@@ -85,7 +85,7 @@
 | `job`       | 직업 유무          | int  |
 | `region`      | 지역 구분                             | int |
 | `year`  | 조사한 연도        | int  |
-| `phone_usage_per_m`              |  월평균 휴대폰 이용 총 금액(만원)                           | int   |
+| `phone_usage_per_m`              |  월평균 휴대폰 이용 총 금액(천원)                           | int   |
 | `mobile_bundle`          | 휴대폰 결합상품 가입 여부           | int |
 | `telecom`         | 가입 통신사                       | int   |
 
@@ -93,7 +93,7 @@
 ## 5-2. 데이터 전처리
 
 - 연도별로 분리된 csv 파일 결합
-```
+```python
 files = glob.glob("../../data/processed/*.csv")
 
 df_list = [pd.read_csv(f) for f in files]
@@ -101,36 +101,50 @@ merged_df = pd.concat(df_list, ignore_index=True)
 
 merged_df.to_csv("../../data/processed/merged_telecom.csv", index=False)
 ```
-- 공백으로 수집된 결측치 제거, 9년 미만 응답자 제거
-```
+- 공백으로 수집된 결측치 제거, 10년 미만 응답자 제거
+```python
+telecom_df = pd.read_csv('../../data/processed/merged_telecom.csv')
 telecom_df = telecom_df[(telecom_df != " ").all(axis=1)]
-telecom_df = telecom_df[telecom_df_count>=9]
+telecom_df_count = telecom_df.groupby('id')['id'].transform('count')
+telecom_df = telecom_df[telecom_df_count>=10]
+telecom_df.to_csv("../../data/processed/merged_telecom.csv", index=False)
 ```
 
 #### 이탈률 정의
 - 작년과 비교하여 올해 통신사가 달라진 경우, 이탈로 간주 (이탈 - 1 / 이탈하지 않음 - 0)
-```
+```python
 telecom_df['telecom_change'] = telecom_df.groupby('id')['telecom'].shift(1)
 telecom_df['telecom_change_yn'] = (telecom_df['telecom_change'] != telecom_df['telecom']).astype(int)
 
 telecom_df['telecom_change'] = telecom_df['telecom_change'].astype('Int64')
 telecom_df = telecom_df.drop('telecom_change', axis=1)
 ```
+### mobile_bundle 컬럼 추가
+```python
+telecom = pd.read_csv('../../data/processed/telecom.csv')
+telecom2016 = pd.read_csv('../../data/processed/telecom2016.csv')
+
+telecom2016 = pd.merge(telecom2016, 
+                    telecom[['id', 'year', 'mobile_bundle']], 
+                    on=['id', 'year'], 
+                    how='left')
+telecom2016.to_csv("../../data/processed/telecom_f.csv", index=False)
+```
 
 ### 인코딩
 - 범주형 데이터 인코딩 (1, 2 > 0, 1)
-```
+```python
 telecom_df['gender'] = telecom_df['gender'].replace({1: 0, 2: 1})
 telecom_df['job'] = telecom_df['job'].replace({1: 1, 2: 0})
 telecom_df['mobile_bundle'] = telecom_df['mobile_bundle'].replace({1: 1, 2: 0})
 ```
 - 범주형 데이터 정규화
-```
+```python
 telecom_df['school'] = telecom_df['school']-1
 telecom_df['income'] = telecom_df['income']-1
 ```
 - 원-핫 인코딩
-```
+```python
 df_encoded = pd.get_dummies(telecom_df, columns=['mar', 'region', 'telecom'], dtype='int')
 telecom_df = telecom_df.rename(columns={
     'region_1': 'seoul',
@@ -196,11 +210,11 @@ telecom_df = telecom_df.rename(columns={
 - XGBoost 임계치 조정
 > 조정 O
 >
-><img width="70%" height="70%" alt="xgboost 임계치 조정" src="https://github.com/user-attachments/assets/6bfb7eab-af0e-47fa-b13d-4db6c716d703" />
+><img width="70%" height="70%" alt="xgboost 임계치 조정" src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN24-2nd-5Team/blob/main/image/xgboost%20%EC%9E%84%EA%B3%84%EC%B9%98%20%EC%A1%B0%EC%A0%95.png" />
 
 > 조정 X
 >
-> <img width="70%" height="70%" alt="xgboost 임계치 조정x" src="https://github.com/user-attachments/assets/a177b9a9-5668-46df-806a-0d1335d9eb51" />
+> <img width="70%" height="70%" alt="xgboost 임계치 조정x" src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN24-2nd-5Team/blob/main/image/xgboost%20%EC%9E%84%EA%B3%84%EC%B9%98%20%EC%A1%B0%EC%A0%95x.png" />
 
 ### 6-1-1. 데이터 증강
 - 기존: 9년치 데이터에 전체 응답한 `id`만 수집/학습
@@ -230,13 +244,13 @@ telecom_df = telecom_df.rename(columns={
 <br>
 
 - 소득 대비 휴대폰 요금 부담률
-```
+```python
 telecom_df['usage_income_ratio'] = (
     telecom_df['phone_usage_per_m'] / (telecom_df['income'] + 1)
 )
 ```
 - 직업 기반 소득 안정성
-```
+```python
 telecom_df['income_if_job'] = (
     telecom_df['job'] * telecom_df['income']
 )
