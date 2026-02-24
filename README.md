@@ -278,7 +278,8 @@ telecom_df['income_if_job'] = (
 <img width="1919" height="856" alt="칼럼명설명" src="https://github.com/user-attachments/assets/0c9d5047-7b6f-4431-a5c2-d41b9e6786ef" />
 <img width="1919" height="841" alt="개인 이탈 고객 가능성 예측 페이지" src="https://github.com/user-attachments/assets/21209f60-432b-4cee-b944-ada57c892b70" />
 <img width="1919" height="804" alt="이탈 예측 결과" src="https://github.com/user-attachments/assets/4872cb9f-70fc-4542-8986-9db8539539a6" />
-<img width="1915" height="836" alt="분석결과" src="https://github.com/user-attachments/assets/06784e17-9d1d-4752-a658-14e9c9ea94cc" />
+<img width="1918" height="857" alt="캡쳐" src="https://github.com/user-attachments/assets/f8fb3ebe-a760-4463-8f32-591d3f22cdbf" />
+
 
 # 8. 한계점
 - 선정한 데이터가 고객의 이탈 여부에 관한 직접적인 데이터가 아닌 여러 가지 미디어 및 통신에 관련된 설문조사 결과
